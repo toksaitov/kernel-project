@@ -368,7 +368,7 @@ To exit from a virtual terminal
 
         core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ task_info/
 
-53. Add your AUCA login with a plus symbol (e.g., `+toksaitov_d`) after the
+53. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the
     version number at the top of `debian.master/changelog` to identify your new
     kernel. You work will be graded based on a correct value here. Incorrect
     values will give you zero points for the work. Ensure to specify your login
