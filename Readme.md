@@ -224,8 +224,8 @@ To exit from a virtual terminal
     process ID.
 
 44. Take a look at the structure used to represent threads and processes in the
-    Linux kernel. You can find it near the line 1377 at `include/linux/sched.h`
-    under the name `task_struct`.
+    Linux kernel. You can find it at `include/linux/sched.h` under the name
+    `task_struct`.
 
         vim ~/ubuntu-*/include/linux/sched.h
 
@@ -382,7 +382,7 @@ To exit from a virtual terminal
 
     to
 
-        linux (4.8.0-59.64+toksaitov_d) yakkety; urgency=low
+        linux (4.8.0-59.64+toksaitovd) yakkety; urgency=low
 
 54. Ensure that you are in the root directory of the kernel source tree.
 
@@ -497,10 +497,38 @@ To exit from a virtual terminal
 
 ### Submitting Work
 
-TBD
+In your private course repository, create a directory `project-2`. Put the
+following files into it.
+
+* `task_info/`
+* `init/Kconfig`
+* `include/linux/syscalls.h`
+* `include/uapi/asm-generic/unistd.h`
+* `arch/x86/entry/syscalls/syscall_32.tbl`
+* `arch/x86/entry/syscalls/syscall_64.tbl`
+* `kernel/sys_ni.c`
+* `Makefile`
+* `debian.master/changelog`
+
+Create a `results.txt` file from the home directory of your virtual machine.
+
+```bash
+sha512sum *.deb > results.txt
+```
+
+Put the `results.txt` file into the `project-2` directory of your
+private repository with all the other files.
 
 Commit and push your work through Git. Submit the last commit ID to Canvas
 before the deadline.
+
+## Tasks for Bonus Points
+
+Port the subsystem to Ubuntu 20.04 or 20.10. You may get up to 5 bonus
+points for this work.
+
+Your code and the generated `results.txt` should be placed into
+`project-2/bonus` directory in the private repository.
 
 ### Deadlines
 
