@@ -173,7 +173,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     after
 
-        struct sigaltstack;
+        struct clone_args;
 
     Add the following
 
@@ -257,8 +257,8 @@ newer 20.04 LTS version of Ubuntu Linux.
     Add the following
 
         /* task_info */
-        cond_syscall(sys_get_pids);
-        cond_syscall(sys_get_task_info);
+        COND_SYSCALL(sys_get_pids);
+        COND_SYSCALL(sys_get_task_info);
 
     at the end of the file
 
@@ -362,7 +362,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 49. The second problem is that `linux/cputime.h` does not exist in the 5.4.*
     version of the kernel anymore that is included in `get_task_info.c`. To find
-    where cputime.h code was moved into, search in the commit history of the
+    where `cputime.h` code was moved into, search in the commit history of the
     Linux [kernel](https://github.com/torvalds/linux). I recommend to use the
     following string `Move cputime functionality from` to narrow down your
     search. Fix the include after that. It also looks like that the `cputime_t`
@@ -375,16 +375,19 @@ newer 20.04 LTS version of Ubuntu Linux.
     Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
     in sources in the 5.4 version on the same site. Apply the same change to
     your code.
+    
+51. There is one more compilation error related to `TASK_COMM_LEN` that you
+    will have to figure out on your own.
 
-59. Go to the parent directory.
+52. Go to the parent directory.
 
         cd ..
 
-51. Ensure that you have a number of newly created `.deb` packages.
+53. Ensure that you have a number of newly created `.deb` packages.
 
         ls *.deb
 
-52. Install the new kernel and all its supporting files.
+54. Install the new kernel and all its supporting files.
 
         sudo dpkg -i *.deb
 
@@ -395,30 +398,37 @@ newer 20.04 LTS version of Ubuntu Linux.
     and restart the installation process
 
         sudo dpkg -i *.deb
+        
+    If the versions of the kernels are the same, you may
+    have to remove the old one first, and then install
+    your custom one.
+    
+         sudo apt remove linux-image-5.4.0-91-generic
+         sudo dpkg -i *.deb
 
-53. Reboot the machine to start using the new kernel.
+55. Reboot the machine to start using the new kernel.
 
         sudo shutdown -r now
 
-54. Reconnect to your machine.
+56. Reconnect to your machine.
 
         ssh -p 2222 <the user name specified during installation>@127.0.0.1
 
-55. Go to the directory with sources of the process information utility "tasks".
+57. Go to the directory with sources of the process information utility "tasks".
 
         cd '~/kernel-project/tasks'
 
-56. Adjust system call numbers that you have defined in the kernel. Change
+58. Adjust system call numbers that you have defined in the kernel. Change
     values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
 
-57. Recompile the user space program.
+59. Recompile the user space program.
 
         make clean
         make
 
-58. Test the new system calls.
+60. Test the new system calls.
 
         ./tasks
 
@@ -429,7 +439,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     the arrow keys, show or hide kernel threads with the `t` key, or exit by
     pressing `q`.
 
-59. Go back to the kernel source tree.
+61. Go back to the kernel source tree.
 
         cd ~/ubuntu-*
 
