@@ -375,7 +375,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
     in sources in the 5.4 version on the same site. Apply the same change to
     your code.
-    
+
 51. There is one more compilation error related to `TASK_COMM_LEN` that you
     will have to figure out on your own.
 
@@ -398,11 +398,11 @@ newer 20.04 LTS version of Ubuntu Linux.
     and restart the installation process
 
         sudo dpkg -i *.deb
-        
+
     If the versions of the kernels are the same, you may
     have to remove the old one first, and then install
     your custom one.
-    
+
          sudo apt remove linux-image-5.4.0-91-generic
          sudo dpkg -i *.deb
 
