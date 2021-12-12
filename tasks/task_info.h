@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define TASK_INFO_NAME_LENGTH 32
+#define TASK_INFO_NAME_LENGTH 16
 
 struct task_info
 {

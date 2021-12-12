@@ -13,13 +13,11 @@
 #include <linux/uaccess.h>
 #include <linux/user_namespace.h>
 
-#define TASK_INFO_NAME_LENGTH 32
-
 struct task_info
 {
         /* Process identification */
         int32_t pid;  /* Process ID */
-        char name[TASK_INFO_NAME_LENGTH];
+        char name[TASK_COMM_LEN];
 
         /* Process owners */
         int32_t ppid; /* Parent Process ID */
