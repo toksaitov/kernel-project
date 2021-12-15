@@ -23,7 +23,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 4. Set `memory size` to 1024 megabytes or more. Click on `Create`.
 
-5. Set `file size` for a new virtual disk to (!) 40 gigabytes or more. Once
+5. Set `file size` for a new virtual disk to (!) 60 gigabytes or more. Once
    again, click on `Create`.
 
 6. Right click on your new machine and select `Settings...`.
