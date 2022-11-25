@@ -4,16 +4,11 @@ COM 341, Operating Systems
 
 ### General Information
 
-In this task you need to add implementation of two system calls to the Linux
-kernel. This will allow a small task information utility to run in the user
-space querying information directly from the kernel without parsing output from
-the `proc` file system.
+In this task you need to add implementation of two system calls to the Linux kernel. This will allow a small task information utility to run in the user space querying information directly from the kernel without parsing output from the `proc` file system.
 
 ### Notes
 
-Consider working in a terminal multiplexer such as `tmux`. In tmux you can
-disconnect from the machine during a long-running process, and go back to check
-the progress of the task at any moment in time later.
+Consider working in a terminal multiplexer such as `tmux`. In tmux you can disconnect from the machine during a long-running process, and go back to check the progress of the task at any moment in time later.
 
 Install a terminal multiplexer
 
@@ -31,8 +26,7 @@ To split the current pane into two horizontally
 
     <CTRL+B> %
 
-To switch to the pane above, below, to the left, or to the right of the current
-pane
+To switch to the pane above, below, to the left, or to the right of the current pane
 
     <CTRL+B><Up>
     <CTRL+B><Down>
@@ -53,51 +47,32 @@ To exit from a virtual terminal
 
 ### Steps
 
-1. Ensure that your CPU supports `VT-x` or `AMD-V` virtualization extensions.
-   Ensure that these extensions are enabled in your BIOS/UEFI settings. Refer to
-   your machine documentation.
+1. Ensure that your CPU supports `VT-x` or `AMD-V` virtualization extensions. Ensure that these extensions are enabled in your BIOS/UEFI settings. Refer to your machine documentation.
 
-2. Download and install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads), a
-   virtualizer for x86 hardware.
+2. Download and install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads), a virtualizer for x86 and ARM hardware.
 
-3. Download an installation image for [Ubuntu 16.10](http://old-releases.ubuntu.com/releases/16.10).
-   We recommend to select the server image under the name
-   `ubuntu-16.10-server-amd64.iso`.
+3. Download an installation image for [Ubuntu 16.10](http://old-releases.ubuntu.com/releases/16.10). We recommend to select the server image under the name `ubuntu-16.10-server-amd64.iso` or `ubuntu-16.10-server-arm64.iso` depending on what host hardware you have.
 
-4. Open Oracle VirtualBox and open a new machine creation dialog by clicking on
-   the 'New' button on the toolbar.
+4. Open Oracle VirtualBox and open a new machine creation dialog by clicking on the 'New' button on the toolbar.
 
-5. Type a descriptive name, set type to `Linux` and version to `Ubuntu
-   (64-bit)`.
+5. Type a descriptive name, set type to `Linux` and version to `Ubuntu (64-bit)`.
 
-6. Set `memory size` to 1024 megabytes or more. Click on `Create`.
+6. Set `Base Memory` to 1024 megabytes or more. Set the `Processors` slider to the number of CPU cores you have. Click on `Next`.
 
-7. Set `file size` for a new virtual disk to (!) 40 gigabytes or more. Once
-   again, click on `Create`.
+7. Set `Disk Size` for a new virtual disk to (!) 40 gigabytes or more. Once again, click on `Next`, then `Finish`.
 
 8. Right click on your new machine and select `Settings...`.
 
-9. Go to the `System` tab, select `processor`. Set the first slider to the
-   number of cores that you have on your system.
+9. Switch to the `Storage` tab, select an empty disk under the IDE controller. On the right side, click on the disk icon and select `Choose a disk file...`. Open the disk image from step #3.
 
-10. Switch to the `Storage` tab, select an empty disk under the IDE controller.
-    On the right side, click on the disk icon and select `Choose a disk
-    file...`. Open the disk image from step #3.
-
-11. Go to the `Network` tab, click on `Advanced`, open the `Port Forwarding`
-    window. Click on the plus icon and add the following rule to forward traffic
-    from your host machine on port 2222 to an SSH server on the guest machine on
-    port 22.
+11. Go to the `Network` tab, click on `Advanced`, open the `Port Forwarding` window. Click on the plus icon and add the following rule to forward traffic from your host machine on port 2222 to an SSH server on the guest machine on port 22.
 
         Name      Protocol    Host IP      Host Port    Guest IP     Guest Port
         Rule 1    TCP         127.0.0.1    2222         10.0.2.15    22
 
-    Other options are possible but they depend on your network setup (e.g., you
-    can select the `Bridged Adapter` in the `Attached to` drop-down as an
-    alternative).
+Other options are possible but they depend on your network setup (e.g., you can select the `Bridged Adapter` in the `Attached to` drop-down as an alternative).
 
-12. Save your settings and use the `Start` button on the toolbar to start your
-    virtual machine.
+12. Save your settings and use the `Start` button on the toolbar to start your virtual machine.
 
 13. On the installer's boot menu, select `Install` to start the installation
     process.

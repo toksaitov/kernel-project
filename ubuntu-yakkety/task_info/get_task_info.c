@@ -182,4 +182,3 @@ SYSCALL_DEFINE2(get_task_info, pid_t, pid, struct task_info __user *, output_tas
 
         return 0;
 }
-

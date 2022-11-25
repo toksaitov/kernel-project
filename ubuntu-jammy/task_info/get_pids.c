@@ -33,4 +33,3 @@ SYSCALL_DEFINE2(get_pids, int, pid_list_length, pid_t __user *, output_pid_list)
 
         return result;
 }
-

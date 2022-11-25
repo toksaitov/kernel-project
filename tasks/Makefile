@@ -15,4 +15,3 @@ $(OBJECT) : $(SOURCES)
 .PHONY : clean
 clean :
 	rm -rf $(TARGET) $(OBJECT)
-

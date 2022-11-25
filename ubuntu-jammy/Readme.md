@@ -12,8 +12,8 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 ### Steps
 
-1. Download an installation image for [Ubuntu 20.04](https://releases.ubuntu.com/focal)
-   We recommend to select the server image under the name `ubuntu-20.04.3-live-server-amd64.iso`.
+1. Download an installation image for [Ubuntu 22.04](https://releases.ubuntu.com/jammy)
+   We recommend to select the server image under the name `ubuntu-22.04.1-live-server-amd64.iso`.
 
 2. Open Oracle VirtualBox and open a new machine creation dialog by clicking on
    the 'New' button on the toolbar.
@@ -131,7 +131,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     to fetch around 200 megabytes of data from the Canonical servers (the company
     behind the Ubuntu OS).
 
-        git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/focal ubuntu-focal
+        git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy ubuntu-focal
 
 32. Install prerequisites for building the kernel.
 
