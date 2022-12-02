@@ -131,7 +131,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     to fetch around 200 megabytes of data from the Canonical servers (the company
     behind the Ubuntu OS).
 
-        git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy ubuntu-focal
+        git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy ubuntu-jammy
 
 32. Install prerequisites for building the kernel.
 
@@ -173,7 +173,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     after
 
-        struct clone_args;
+        struct landlock_ruleset_attr;
 
     Add the following
 
@@ -192,28 +192,28 @@ newer 20.04 LTS version of Ubuntu Linux.
     Add
 
         /* task_info/get_pids.c */
-        #define __NR_get_pids 436
+        #define __NR_get_pids 449
         __SYSCALL(__NR_get_pids, sys_get_pids)
         /* task_info/get_task_info.c */
-        #define __NR_get_task_info 437
+        #define __NR_get_task_info 450
         __SYSCALL(__NR_get_task_info, sys_get_task_info)
 
     before
 
         #undef __NR_syscalls
 
-    Don't forget to adjust numbers `436` and `437` if necessary. Use successive
+    Don't forget to adjust numbers `449` and `450` if necessary. Use successive
     values after the last system call in the file.
 
     Increment the value of the next instance of __NR_syscalls by two.
 
     For example, change
 
-        #define __NR_syscalls 436
+        #define __NR_syscalls 449
 
     to
 
-        #define __NR_syscalls 438
+        #define __NR_syscalls 451
 
 38. Add x86 table entries for two system calls at the end of the
     `arch/x86/entry/syscalls/syscall_32.tbl` file.
@@ -222,12 +222,12 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     Add the following
 
-        436    i386    get_pids        sys_get_pids        __ia32_sys_get_pids
-        437    i386    get_task_info   sys_get_task_info   __ia32_sys_get_task_info
+        449    i386    get_pids        sys_get_pids
+        450    i386    get_task_info   sys_get_task_info
 
     at the end of the file. Adjust tabs and spaces.
 
-    Don't forget to adjust numbers `436` and `437` if necessary. Use successive
+    Don't forget to adjust numbers `449` and `450` if necessary. Use successive
     values after the last system call in the file.
 
 39. Add x86-64 table entries for two system calls in
@@ -238,15 +238,15 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     Add system call numbers for x86-64 architecture
 
-        436    common    get_pids             __x64_sys_get_pids
-        437    common    get_task_info        __x64_sys_get_task_info
+        449    common    get_pids             sys_get_pids
+        450    common    get_task_info        sys_get_task_info
 
     before
 
-        #
-        # x32-specific system call numbers...
+        #                                                                                
+        # Due to a historical design error, certain syscalls are numbered differently...
 
-    Don't forget to adjust numbers `436` and `437` if necessary. Use successive
+    Don't forget to adjust numbers `449` and `450` if necessary. Use successive
     values after the last system call in the file. Adjust tabs and spaces
     appropriately.
 
@@ -287,11 +287,11 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     Change the version at the top (the version can be different)
 
-        linux (5.4.0-91.102) focal; urgency=medium
+        linux (5.15.0-52.58) jammy; urgency=medium
 
     to
 
-        linux (5.4.0-91.102+toksaitovd) focal; urgency=medium
+        linux (5.15.0-52.58+toksaitovd) jammy; urgency=medium
 
 43. Ensure that you are in the root directory of the kernel source tree.
 
@@ -350,44 +350,22 @@ newer 20.04 LTS version of Ubuntu Linux.
                                    binary-headers \
                                    binary-generic
 
-48. The first problem that you will encounter is a complain that the variable
-    `nr_threads` is undeclared in `get_pids.c`. Use the Elixir Linux Cross
-    Reference for Linux kernel version [5.4.*](https://elixir.bootlin.com/linux/v5.4.91/source)
-    to search where `nr_threads` is declared. You should also find where the
-    same variable was included for the [old version](https://elixir.bootlin.com/linux/v4.8/source)
-    of the kernel used in Ubuntu 16.10. Remove the old included header (if
-    necessary) and replace it with the new one in `get_pids.c`. Note, that
-    the file that you include must be an `.h` file. The variable should also
-    be declared as an `externvar` and not as a member in the header.
+48. During the compilation process, you will encounter a number of compilation
+    errors. With the help of the [Linux Cross Reference](https://elixir.bootlin.com/linux)
+    website, you will have to figure out what modifications to the Linux kernel
+    code prevent you from compiling your code. It is a rather good idea to
+    compare the version of the kernel used on Ubuntu 16.10 and the version
+    used on Ubuntu 22.04. Fix the errors and make the `tasks` program work again.
 
-49. The second problem is that `linux/cputime.h` does not exist in the 5.4.*
-    version of the kernel anymore that is included in `get_task_info.c`. To find
-    where `cputime.h` code was moved into, search in the commit history of the
-    Linux [kernel](https://github.com/torvalds/linux). I recommend to use the
-    following string `Move cputime functionality from` to narrow down your
-    search. Fix the include after that. It also looks like that the `cputime_t`
-    was removed and replaced with the `u64` typedef. Replace the type in
-    `get_task_info.c`.
-
-50. The third problem that `cputime_to_usecs` is not used to convert time
-    values in the new version of the kernel anymore. To help us find what
-    should we use, we will refer to the Linux Cross Reference [again](https://elixir.bootlin.com/linux/v4.8/source).
-    Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
-    in sources in the 5.4 version on the same site. Apply the same change to
-    your code.
-
-51. There is one more compilation error related to `TASK_COMM_LEN` that you
-    will have to figure out on your own.
-
-52. Go to the parent directory.
+49. Go to the parent directory.
 
         cd ..
 
-53. Ensure that you have a number of newly created `.deb` packages.
+50. Ensure that you have a number of newly created `.deb` packages.
 
         ls *.deb
 
-54. Install the new kernel and all its supporting files.
+51. Install the new kernel and all its supporting files.
 
         sudo dpkg -i *.deb
 
@@ -406,29 +384,29 @@ newer 20.04 LTS version of Ubuntu Linux.
          sudo apt remove linux-image-5.4.0-91-generic
          sudo dpkg -i *.deb
 
-55. Reboot the machine to start using the new kernel.
+52. Reboot the machine to start using the new kernel.
 
         sudo shutdown -r now
 
-56. Reconnect to your machine.
+53. Reconnect to your machine.
 
         ssh -p 2222 <the user name specified during installation>@127.0.0.1
 
-57. Go to the directory with sources of the process information utility "tasks".
+54. Go to the directory with sources of the process information utility "tasks".
 
         cd '~/kernel-project/tasks'
 
-58. Adjust system call numbers that you have defined in the kernel. Change
+55. Adjust system call numbers that you have defined in the kernel. Change
     values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
 
-59. Recompile the user space program.
+56. Recompile the user space program.
 
         make clean
         make
 
-60. Test the new system calls.
+57. Test the new system calls.
 
         ./tasks
 
@@ -439,7 +417,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     the arrow keys, show or hide kernel threads with the `t` key, or exit by
     pressing `q`.
 
-61. Go back to the kernel source tree.
+58. Go back to the kernel source tree.
 
         cd ~/ubuntu-*
 
