@@ -471,7 +471,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
 ### Submitting Work
 
-In your private course repository, create a directory `project-2/part-1`. Put
+In your private course repository, create a directory `project-02/part-01`. Put
 the following files into it.
 
 * `task_info/`
@@ -490,7 +490,7 @@ Create a `results.txt` file from the home directory of your virtual machine.
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-2/part-1` directory of your
+Put the `results.txt` file into the `project-02/part-01` directory of your
 private repository with all the other files.
 
 Commit and push your work through Git. Submit the last commit ID to Canvas
