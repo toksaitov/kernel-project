@@ -448,7 +448,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 ### Submitting Work
 
-In your private course repository, create a directory `project-2/part-2`. Put
+In your private course repository, create a directory `project-02/part-02`. Put
 the following files into it.
 
 * `task_info/`
