@@ -173,7 +173,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     after
 
-        struct landlock_ruleset_attr;
+        enum landlock_rule_type;
 
     Add the following
 
@@ -350,22 +350,47 @@ newer 20.04 LTS version of Ubuntu Linux.
                                    binary-headers \
                                    binary-generic
 
-48. During the compilation process, you will encounter a number of compilation
-    errors. With the help of the [Linux Cross Reference](https://elixir.bootlin.com/linux)
-    website, you will have to figure out what modifications to the Linux kernel
-    code prevent you from compiling your code. It is a rather good idea to
-    compare the version of the kernel used on Ubuntu 16.10 and the version
-    used on Ubuntu 22.04. Fix the errors and make the `tasks` program work again.
+48. The first problem that you will encounter is a complain that the variable
+    `nr_threads` is undeclared in `get_pids.c`. Use the Elixir Linux Cross
+    Reference for Linux kernel version [5.15.*](https://elixir.bootlin.com/linux/v5.15.52/source)
+    to search where `nr_threads` is declared. You should also find where the
+    same variable was included for the [old version](https://elixir.bootlin.com/linux/v4.8/source)
+    of the kernel used in Ubuntu 16.10. Remove the old included header (if
+    necessary) and replace it with the new one in `get_pids.c`. Note, that
+    the file that you include must be an `.h` file. The variable should also
+    be declared as an `externvar` and not as a member in the header.
 
-49. Go to the parent directory.
+49. The second problem is that `linux/cputime.h` does not exist in the 5.15.*
+    version of the kernel anymore that is included in `get_task_info.c`. To find
+    where `cputime.h` code was moved into, search in the commit history of the
+    Linux [kernel](https://github.com/torvalds/linux). I recommend to use the
+    following string `Move cputime functionality from` to narrow down your
+    search. Fix the include after that. It also looks like that the `cputime_t`
+    was removed and replaced with the `u64` typedef. Replace the type in
+    `get_task_info.c`.
+
+50. The third problem is that `cputime_to_usecs` is not used to convert time
+    values in the new version of the kernel anymore. To help us find what
+    should we use, we will refer to the Linux Cross Reference [again](https://elixir.bootlin.com/linux/v4.8/source).
+    Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
+    in sources in the 5.15.* version on the same site. Apply the same change to
+    your code.
+    
+51. Finally, the logic to extract the process state information (outlined after the `/* state */` comment in
+    `get_task_info.c`) was changed, and a getter `task_state_index(...)` was [created](https://github.com/torvalds/linux/commit/1d48b080bcce0a5e7d7aa2dbcdb35deefc188c3f) to aquire
+    this information from the process control block (`struct task_struct` in Linux). Replace the code after
+    `/* state */` to set the `local_task_info.state` variable with the code to set this variable with the value
+    returned by `task_state_index(...)`.
+
+51. Go to the parent directory.
 
         cd ..
 
-50. Ensure that you have a number of newly created `.deb` packages.
+52. Ensure that you have a number of newly created `.deb` packages.
 
         ls *.deb
 
-51. Install the new kernel and all its supporting files.
+53. Install the new kernel and all its supporting files.
 
         sudo dpkg -i *.deb
 
@@ -384,29 +409,29 @@ newer 20.04 LTS version of Ubuntu Linux.
          sudo apt remove linux-image-5.4.0-91-generic
          sudo dpkg -i *.deb
 
-52. Reboot the machine to start using the new kernel.
+54. Reboot the machine to start using the new kernel.
 
         sudo shutdown -r now
 
-53. Reconnect to your machine.
+55. Reconnect to your machine.
 
         ssh -p 2222 <the user name specified during installation>@127.0.0.1
 
-54. Go to the directory with sources of the process information utility "tasks".
+56. Go to the directory with sources of the process information utility "tasks".
 
         cd '~/kernel-project/tasks'
 
-55. Adjust system call numbers that you have defined in the kernel. Change
+57. Adjust system call numbers that you have defined in the kernel. Change
     values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
 
-56. Recompile the user space program.
+58. Recompile the user space program.
 
         make clean
         make
 
-57. Test the new system calls.
+59. Test the new system calls.
 
         ./tasks
 
@@ -417,7 +442,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     the arrow keys, show or hide kernel threads with the `t` key, or exit by
     pressing `q`.
 
-58. Go back to the kernel source tree.
+60. Go back to the kernel source tree.
 
         cd ~/ubuntu-*
 
@@ -442,7 +467,7 @@ Create a `results.txt` file from the home directory of your virtual machine.
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-2/part-2` directory of your
+Put the `results.txt` file into the `project-02/part-02` directory of your
 private repository with all the other files.
 
 Commit and push your work through Git. Submit the last commit ID to Canvas
