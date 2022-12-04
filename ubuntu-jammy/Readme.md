@@ -325,6 +325,10 @@ newer 20.04 LTS version of Ubuntu Linux.
     to 10 gigabytes of disk space. The Debian build system not only builds the
     kernel but also packs everything into a set of installable `.deb` packages.
     All compilation errors will appear at this stage.
+    
+    Keep track of errors by watching the compilation log. The compilation process
+    does not stop on error. If you see an error, stop the process by pressing `CTRL+C`
+    key combination immidiately.
 
     To restart an unsuccessful build, fix problems in your sources and start the
     build system again.
@@ -352,7 +356,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 48. The first problem that you will encounter is a complain that the variable
     `nr_threads` is undeclared in `get_pids.c`. Use the Elixir Linux Cross
-    Reference for Linux kernel version [5.15.*](https://elixir.bootlin.com/linux/v5.15.52/source)
+    Reference for Linux kernel version [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source)
     to search where `nr_threads` is declared. You should also find where the
     same variable was included for the [old version](https://elixir.bootlin.com/linux/v4.8/source)
     of the kernel used in Ubuntu 16.10. Remove the old included header (if
@@ -373,24 +377,26 @@ newer 20.04 LTS version of Ubuntu Linux.
     values in the new version of the kernel anymore. To help us find what
     should we use, we will refer to the Linux Cross Reference [again](https://elixir.bootlin.com/linux/v4.8/source).
     Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
-    in sources in the 5.15.* version on the same site. Apply the same change to
-    your code.
+    in sources in the [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source)
+    version on the same site. Apply the same change to your code.
     
 51. Finally, the logic to extract the process state information (outlined after the `/* state */` comment in
     `get_task_info.c`) was changed, and a getter `task_state_index(...)` was [created](https://github.com/torvalds/linux/commit/1d48b080bcce0a5e7d7aa2dbcdb35deefc188c3f) to aquire
     this information from the process control block (`struct task_struct` in Linux). Replace the code after
-    `/* state */` to set the `local_task_info.state` variable with the code to set this variable with the value
-    returned by `task_state_index(...)`.
+    `/* state */` to set the `local_task_info.state` field with the code to set this variable with the value
+    returned by the aforementioned getter.
+    
+52. Fix the code issues and try rebuilding the kernel again.
 
-51. Go to the parent directory.
+53. Go to the parent directory.
 
         cd ..
 
-52. Ensure that you have a number of newly created `.deb` packages.
+54. Ensure that you have a number of newly created `.deb` packages.
 
         ls *.deb
 
-53. Install the new kernel and all its supporting files.
+55. Install the new kernel and all its supporting files.
 
         sudo dpkg -i *.deb
 
@@ -402,47 +408,48 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         sudo dpkg -i *.deb
 
-    If the versions of the kernels are the same, you may
-    have to remove the old one first, and then install
-    your custom one.
+    If the version of the new kernels is lower than that of of
+    the current one, you may have to remove the old one first,
+    and then install your custom one.
 
-         sudo apt remove linux-image-5.4.0-91-generic
+         sudo apt remove linux-image-5.15.0-56-generic # or whatever kernel (`uname -a`) you have
+         sudo apt autoremove
          sudo dpkg -i *.deb
 
-54. Reboot the machine to start using the new kernel.
+56. Reboot the machine to start using the new kernel.
 
         sudo shutdown -r now
 
-55. Reconnect to your machine.
+57. Reconnect to your machine.
 
         ssh -p 2222 <the user name specified during installation>@127.0.0.1
 
-56. Go to the directory with sources of the process information utility "tasks".
+58. Go to the directory with sources of the process information utility "tasks".
 
         cd '~/kernel-project/tasks'
 
-57. Adjust system call numbers that you have defined in the kernel. Change
+59. Adjust system call numbers that you have defined in the kernel. Change
     values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
 
-58. Recompile the user space program.
+60. Recompile the user space program.
 
         make clean
         make
 
-59. Test the new system calls.
+61. Test the new system calls.
 
         ./tasks
 
     You should see a list of tasks that are currently running on the system.
-    The program uses your new system calls to get information directly from the
-    kernel without going through a `proc` virtual file system (which is how
-    programs such as `ps` or `top` work). You can scroll through the list with
-    the arrow keys, show or hide kernel threads with the `t` key, or exit by
-    pressing `q`.
 
-60. Go back to the kernel source tree.
+    If you press `t`, you will probably discover invalid values in core and
+    virtual memory columns. We will leave it to you as an optional exercise
+    to figure out the problem. But be warned, you will probably have to modify
+    and rebuild the kernel again.
+
+62. Go back to the kernel source tree.
 
         cd ~/ubuntu-*
 
