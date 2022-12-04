@@ -15,7 +15,10 @@ In this work, we hope you will
 * Learn how to configure a kernel before compilation.
 * Learn how to compile a kernel.
 * Learn about the #1 programmer excuse for legitimately [slacking off](https://xkcd.com/303).
-* Learn to work with various sources of information such as man pages, references, books, and kernel sources to get the necessary information.
+* Learn how to work with complex code bases not written by you
+* Learn how to use cross-referencing and version control to search for information to modify existing code
+* Learn why your Android phone (unless it is from Google) does not get OS updates the same day Google releases them
+* Learn to work with other sources of information such as man pages, books, and specialized social networks to get the necessary information.
 
 ## Required Tools
 
@@ -27,11 +30,11 @@ The goal of the first part is to modify an old version of the Linux kernel bundl
 
 ### What to Submit
 
-1. Ensure that during the compilation process you have specified your last name and the first letter of the first name in the `...debian.master/changelog` file in the correct form (all letters are in lowercase, no `_` or `-` characters between your last name and the first letter of the first name).
+1. Ensure that during the compilation process, you have specified your last name and the first letter of the first name in the `...debian.master/changelog` file in the correct form (all letters are in lowercase, no `_` or `-` characters between your last name and the first letter of the first name).
 
-2. In your private course repository that was given to you by the instructor during the lecture, create the path `project-02/part-01/`.
+2. In your private course repository given to you by the instructor during the lecture, create the path `project-02/part-01/`.
 
-3. In your private course repository, create a directory `project-02/part-01`. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
+3. Create a directory `project-02/part-01` in your private course repository. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
 
     * `task_info/`
     * `init/Kconfig`
@@ -42,8 +45,9 @@ The goal of the first part is to modify an old version of the Linux kernel bundl
     * `kernel/sys_ni.c`
     * `Makefile`
     * `debian.master/changelog`
+    * `linux-image-*-generic_*_amd64.deb`
 
-Create a `results.txt` file from the home directory (`~/`) of your virtual machine.
+Create a `results.txt` file in your virtual machine's home directory (`~/`).
 
 ```bash
 sha512sum *.deb > results.txt
@@ -55,15 +59,15 @@ Put the `results.txt` file into the `project-02/part-01` directory of your priva
 
 ## Part #2
 
-The goal of the second task is to port the `task_info` system calls' code from the previous part to the new version of the Linux kernel bundled together with the Ubuntu 22.04 LTS distribution. Follow all the steps in the Readme file under the `ubuntu-jammy` directory to finish the task.
+The goal of the second task is to port the `task_info` system calls' code from the previous part to the new version of the Linux kernel bundled with the Ubuntu 22.04 LTS distribution. Follow all the steps in the Readme file under the `ubuntu-jammy` directory to finish the task.
 
 ### What to Submit
 
-1. Ensure that during the compilation process you have specified your last name and the first letter of the first name in the `...debian.master/changelog` file in the correct form (all letters are in lowercase, no `_` or `-` characters between your last name and the first letter of the first name).
+1. Ensure that during the compilation process, you have specified your last name and the first letter of the first name in the `...debian.master/changelog` file in the correct form (all letters are in lowercase, no `_` or `-` characters between your last name and the first letter of the first name).
 
-2. In your private course repository that was given to you by the instructor during the lecture, create the path `project-02/part-02/`.
+2. In your private course repository given to you by the instructor during the lecture, create the path `project-02/part-02/`.
 
-3. In your private course repository, create a directory `project-02/part-02`. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
+3. Create a directory `project-02/part-02` in your private course repository. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
 
     * `task_info/`
     * `init/Kconfig`
@@ -74,8 +78,9 @@ The goal of the second task is to port the `task_info` system calls' code from t
     * `kernel/sys_ni.c`
     * `Makefile`
     * `debian.master/changelog`
+    * `linux-image-*-generic_*_amd64.deb`
 
-Create a `results.txt` file from the home directory (`~/`) of your virtual machine.
+Create a `results.txt` file in your virtual machine's home directory (`~/`).
 
 ```bash
 sha512sum *.deb > results.txt
@@ -85,6 +90,6 @@ Put the `results.txt` file into the `project-02/part-02` directory of your priva
 
 4. Commit and push your repository through Git. Submit a URL to the last commit on GitHub to Canvas before the deadline.
 
-### Deadline
+## Deadline
 
 Check Canvas for information about the deadlines.
