@@ -82,7 +82,7 @@ SYSCALL_DEFINE2(get_task_info, pid_t, pid, struct task_info __user *, output_tas
                         local_task_info.pid = pid;
                         /* name */
                         get_task_comm(local_task_info.name, task);
-                        local_task_info.name[TASK_COMM_LEN] = '\0';
+                        local_task_info.name[TASK_COMM_LEN - 1] = '\0';
 
                         /* uid, gid, ppid */
                         rcu_read_lock();
