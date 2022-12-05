@@ -1,14 +1,14 @@
 COM 341, Operating Systems
 ==========================
-# Project #2 Part #1: Process Control Block
+# Project #2 Part #1: [Process Control Block](https://elixir.bootlin.com/linux/v4.8/source/include/linux/sched.h#L1460)
 
 ### General Information
 
-In this task you need to add implementation of two system calls to the Linux kernel. This will allow a small task information utility to run in the user space querying information directly from the kernel without parsing output from the `proc` file system.
+In Part #1, you need to add two system calls to the Linux kernel. The system calls will allow a small task information utility to run in the user space querying information directly from the kernel without parsing output from the `proc` file system.
 
 ### Notes
 
-Consider working in a terminal multiplexer such as `tmux`. In tmux you can disconnect from the machine during a long-running process, and go back to check the progress of the task at any moment in time later.
+Consider working in a terminal multiplexer such as `tmux`. In tmux, you can disconnect from the machine during a long-running process and go back to check the progress of the task at any later time.
 
 Install a terminal multiplexer
 
@@ -51,7 +51,7 @@ To exit from a virtual terminal
 
 2. Download and install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads), a virtualizer for x86 and ARM hardware.
 
-3. Download an installation image for [Ubuntu 16.10](http://old-releases.ubuntu.com/releases/16.10). We recommend to select the server image under the name `ubuntu-16.10-server-amd64.iso` or `ubuntu-16.10-server-arm64.iso` depending on what host hardware you have.
+3. Download an installation image for [Ubuntu 16.10](http://old-releases.ubuntu.com/releases/16.10). We recommend selecting the server image under the name `ubuntu-16.10-server-amd64.iso`.
 
 4. Open Oracle VirtualBox and open a new machine creation dialog by clicking on the 'New' button on the toolbar.
 
@@ -61,21 +61,20 @@ To exit from a virtual terminal
 
 7. Set `Disk Size` for a new virtual disk to (!) 40 gigabytes or more. Once again, click on `Next`, then `Finish`.
 
-8. Right click on your new machine and select `Settings...`.
+8. Right-click on your new machine and select `Settings...`.
 
-9. Switch to the `Storage` tab, select an empty disk under the IDE controller. On the right side, click on the disk icon and select `Choose a disk file...`. Open the disk image from step #3.
+9. Switch to the `Storage` tab, and select an empty disk under the IDE controller. On the right side, click the disk icon and select `Choose a disk file...`. Open the disk image from step #3.
 
 11. Go to the `Network` tab, click on `Advanced`, open the `Port Forwarding` window. Click on the plus icon and add the following rule to forward traffic from your host machine on port 2222 to an SSH server on the guest machine on port 22.
 
         Name      Protocol    Host IP      Host Port    Guest IP     Guest Port
         Rule 1    TCP         127.0.0.1    2222         10.0.2.15    22
 
-Other options are possible but they depend on your network setup (e.g., you can select the `Bridged Adapter` in the `Attached to` drop-down as an alternative).
+Other options are possible, but they depend on your network setup (e.g., select the `Bridged Adapter` in the `Attached to` drop-down as an alternative).
 
 12. Save your settings and use the `Start` button on the toolbar to start your virtual machine.
 
-13. On the installer's boot menu, select `Install` to start the installation
-    process.
+13. On the installer's boot menu, select `Install` to start the installation process.
 
 14. On the language selection dialog, set the system language to `English`.
 
@@ -83,18 +82,15 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
 16. Set locale to `United States - en_US.UTF-8`.
 
-17. Select `No` on the keyboard detection dialog and manually select `English
-    (US)`.
+17. Select `No` on the keyboard detection dialog and manually select `English (US)`.
 
-18. Set a system host name to identify the virtual machine on your network. You
-    can use the default value.
+18. Set a system hostname to identify the virtual machine on your network. You can use the default value.
 
-19. Type your full name, select a login name, create a password for a new
-    account on your virtual system.
+19. Type your full name, select a login name, and create a password for a new account on your virtual system.
 
 20. Select an option that you don't want to encrypt your home directory.
 
-21. Ensure that your time zone was configured properly.
+21. Ensure that your time zone is configured correctly.
 
 22. Select `Guided - use entire disk` during a disk partitioning step.
 
@@ -106,26 +102,19 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
 26. On a software selection dialog, check `OpenSSH server`.
 
-27. Confirm the boot loader installation.
+27. Confirm the bootloader installation.
 
-28. When asked, remove the disk image by clicking on a disk icon in the lower
-    right corner and selecting `Remove disk from virtual drive`. Reboot the
-    virtual machine. It is also possible that the OS will remove the disk
-    automatically for you.
+28. When asked, remove the disk image by clicking on a disk icon in the lower right corner and selecting `Remove disk from virtual drive`. Reboot the virtual machine. It is also possible that the OS will remove the disk automatically for you.
 
-29. You can work directly in the VirtualBox window, or you can connect to your
-    server through the SSH protocol.
+29. You can work directly in the VirtualBox window, or you can connect to your server through the SSH protocol.
 
-    On your host machine (from Bash on Windows or any terminal on *nix
-    platforms) use the following command to connect to your virtual server.
+    On your host machine (from Bash on Windows or any terminal on *nix platforms) use the following command to connect to your virtual server.
 
         ssh -p 2222 <the user name specified during installation>@127.0.0.1
 
     Consider starting using `tmux` at this point.
 
-30. Uncomment every line that starts with `deb-src` except the line that ends
-    with the word `partner` in the package manager's configuration file
-    `/etc/apt/sources.list` and save it.
+30. Uncomment every line that starts with `deb-src` except the line that ends with the word `partner` in the package manager's configuration file `/etc/apt/sources.list` and save it.
 
         sudo vim /etc/apt/sources.list
 
@@ -143,8 +132,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         scp -P 2222 -r kernel-project <the user name specified during installation>@127.0.0.1:~/
 
-34. Go to the directory with sources of the process information utility
-    "tasks".
+34. Go to the directory with sources of the process information utility "tasks".
 
         cd ~/kernel-project/tasks
 
@@ -165,9 +153,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
         git config --global user.name "your full name"
         git config --global user.email "your e-mail address"
 
-39. Clone the Linux kernel repository for Ubuntu 16.10. Note that Git will try
-    to fetch around 200 megabytes of data from the Canonical servers (the company
-    behind the Ubuntu OS).
+39. Clone the Linux kernel repository for Ubuntu 16.10. Note that Git will try to fetch around 200 megabytes of data from the Canonical servers (the company behind the Ubuntu OS).
 
         git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/yakkety ubuntu-yakkety
 
@@ -184,22 +170,15 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         cp -R ~/kernel-project/ubuntu-*/task_info ~/ubuntu-*/
 
-43. Study implementation of two system calls in `task_info/get_pids.c` and
-    `task_info/get_task_info.c`. Take a look at the structure passed between
-    the kernel and user space in `task_info/include/task_info.h`.
+43. Study implementation of two system calls in `task_info/get_pids.c` and `task_info/get_task_info.c`. Take a look at the structure passed between the kernel and user space in `task_info/include/task_info.h`.
 
         vim ~/ubuntu-*/task_info/get_pids.c
         vim ~/ubuntu-*/task_info/get_task_info.c
         vim ~/ubuntu-*/task_info/include/task_info/task_info.h
 
-    The `task_info` directory contains implementation of two system calls named
-    `get_pids` and `get_task_info`. The first one returns a list of process IDs
-    for all running tasks. The second returns task information for a specified
-    process ID.
+    The `task_info` directory contains implementation of two system calls named `get_pids` and `get_task_info`. The first one returns a list of process IDs for all running tasks. The second returns task information for a specified process ID.
 
-44. Take a look at the structure used to represent threads and processes in the
-    Linux kernel. You can find it at `include/linux/sched.h` under the name
-    `task_struct`.
+44. Take a look at the structure used to represent threads and processes in the Linux kernel. You can find it at `include/linux/sched.h` under the name `task_struct`.
 
         vim ~/ubuntu-*/include/linux/sched.h
 
@@ -224,9 +203,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
     at the end of the file. Adjust tabs and spaces.
 
-47. Add a forward declaration for the `task_info` structure and two function
-    prototypes for `get_pids` and `get_task_info` at the end of
-    `include/linux/syscalls.h`.
+47. Add a forward declaration for the `task_info` structure and two function prototypes for `get_pids` and `get_task_info` at the end of `include/linux/syscalls.h`.
 
         vim ~/ubuntu-*/include/linux/syscalls.h
 
@@ -246,9 +223,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
     at the end of the file before the closing `#endif`
 
-48. Add generic table entries for two system calls before the first instance of
-    `#undef __NR_syscalls` in `include/uapi/asm-generic/unistd.h`. Do not forget
-    to increment the counter for the first `#define __NR_syscalls` by two.
+48. Add generic table entries for two system calls before the first instance of `#undef __NR_syscalls` in `include/uapi/asm-generic/unistd.h`. Do not forget to increment the counter for the first `#define __NR_syscalls` by two.
 
         vim ~/ubuntu-*/include/uapi/asm-generic/unistd.h
 
@@ -265,8 +240,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         #undef __NR_syscalls
 
-    Don't forget to adjust numbers `291` and `292` if necessary. Use successive
-    values after the last system call in the file.
+    Don't forget to adjust numbers `291` and `292` if necessary. Use successive values after the last system call in the file.
 
     Increment the value of the next instance of __NR_syscalls by two.
 
@@ -278,8 +252,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         #define __NR_syscalls 293
 
-49. Add x86 table entries for two system calls at the end of the
-    `arch/x86/entry/syscalls/syscall_32.tbl` file.
+49. Add x86 table entries for two system calls at the end of the `arch/x86/entry/syscalls/syscall_32.tbl` file.
 
         vim ~/ubuntu-*/arch/x86/entry/syscalls/syscall_32.tbl
 
@@ -290,12 +263,9 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
     at the end of the file. Adjust tabs and spaces.
 
-    Don't forget to adjust numbers `383` and `384` if necessary. Use successive
-    values after the last system call in the file.
+    Don't forget to adjust numbers `383` and `384` if necessary. Use successive values after the last system call in the file.
 
-50. Add x86-64 table entries for two system calls in
-    `arch/x86/entry/syscalls/syscall_64.tbl`. Do it before the
-    `# x32-specific system call num...` comment.
+50. Add x86-64 table entries for two system calls in `arch/x86/entry/syscalls/syscall_64.tbl`. Do it before the `# x32-specific system call num...` comment.
 
         vim ~/ubuntu-*/arch/x86/entry/syscalls/syscall_64.tbl
 
@@ -311,9 +281,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
         # for native 64-bit operation.
         #
 
-    Don't forget to adjust numbers `332` and `333` if necessary. Use successive
-    values after the last system call in the file. Adjust tabs and spaces
-    appropriately.
+    Don't forget to adjust numbers `332` and `333` if necessary. Use successive values after the last system call in the file. Adjust tabs and spaces appropriately.
 
 51. Add two fallback stubs at the end of `kernel/sys_ni.c`.
 
@@ -327,10 +295,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
     at the end of the file
 
-52. Modify the kernel build system to compile the new calls. Add the
-    directory `task_info/` at the end of the line
-    `core-y += kernel/ mm/ fs/ ipc/ security/ crypto/ block/` in the main
-    `Makefile`.
+52. Modify the kernel build system to compile the new calls. Add the directory `task_info/` at the end of the line `core-y += kernel/ mm/ fs/ ipc/ security/ crypto/ block/` in the main `Makefile`.
 
         vim ~/ubuntu-*/Makefile
 
@@ -342,11 +307,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ task_info/
 
-53. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the
-    version number at the top of `debian.master/changelog` to identify your new
-    kernel. You work will be graded based on a correct value here. Incorrect
-    values will give you zero points for the work. Ensure to specify your login
-    name correctly.
+53. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the version number at the top of `debian.master/changelog` to identify your new kernel. You work will be graded based on a correct value here. Incorrect values will give you zero points for the work. Ensure to specify your login name correctly.
 
         vim ~/ubuntu-*/debian.master/changelog
 
@@ -375,33 +336,25 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         fakeroot debian/rules editconfigs
 
-    For each prompt, ensure that the `task_info` option is selected, save the
-    configuration and exit.
+    For each prompt, ensure that the `task_info` option is selected, save the configuration and exit.
 
-58. Start the kernel build process. A successful build will produce multiple
-    `.deb` packages in the parent directory. Time the the process.
+58. Start the kernel build process. A successful build will produce multiple `.deb` packages in the parent directory. Time the the process.
 
         time fakeroot debian/rules binary-perarch \
                                    binary-indep   \
                                    binary-headers \
                                    binary-generic
 
-    The compilation process can take a lot of time. Compiled objects can use up
-    to 10 gigabytes of disk space. The Debian build system not only builds the
-    kernel but also packs everything into a set of installable `.deb` packages.
-    All compilation errors will appear at this stage.
+    The compilation process can take a lot of time. Compiled objects can use up to 10 gigabytes of disk space. The Debian build system not only builds the kernel but also packs everything into a set of installable `.deb` packages. All compilation errors will appear at this stage.
 
-    To restart an unsuccessful build, fix problems in your sources and start the
-    build system again.
+    To restart an unsuccessful build, fix problems in your sources and start the build system again.
 
         time fakeroot debian/rules binary-perarch \
                                    binary-indep   \
                                    binary-headers \
                                    binary-generic
 
-    To recompile the kernel with new changes after a successful build, remove a
-    stamp file to notify the build system that kernel sources were changed.
-    After that, you can start the build process again.
+    To recompile the kernel with new changes after a successful build, remove a stamp file to notify the build system that kernel sources were changed. After that, you can start the build process again.
 
         rm debian/stamps/stamp-build-generic
 
@@ -442,8 +395,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         cd '~/kernel-project/tasks'
 
-65. Adjust system call numbers that you have defined in the kernel. Change
-    values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
+65. Adjust system call numbers that you have defined in the kernel. Change values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
 
@@ -456,12 +408,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
         ./tasks
 
-    You should see a list of tasks that are currently running on the system.
-    The program uses your new system calls to get information directly from the
-    kernel without going through a `proc` virtual file system (which is how
-    programs such as `ps` or `top` work). You can scroll through the list with
-    the arrow keys, show or hide kernel threads with the `t` key, or exit by
-    pressing `q`.
+    You should see a list of tasks that are currently running on the system. The program uses your new system calls to get information directly from the kernel without going through a `proc` virtual file system (which is how programs such as `ps` or `top` work). You can scroll through the list with the arrow keys, show or hide kernel threads with the `t` key, or exit by pressing `q`.
 
 68. Study the sources of the user space program.
 
@@ -471,8 +418,7 @@ Other options are possible but they depend on your network setup (e.g., you can 
 
 ### Submitting Work
 
-In your private course repository, create a directory `project-02/part-01`. Put
-the following files into it.
+In your private course repository, create a directory `project-02/part-01`. Put the following files into it.
 
 * `task_info/`
 * `init/Kconfig`
@@ -483,6 +429,7 @@ the following files into it.
 * `kernel/sys_ni.c`
 * `Makefile`
 * `debian.master/changelog`
+* `~/linux-image-*-generic_*_amd64.deb`
 
 Create a `results.txt` file from the home directory of your virtual machine.
 
@@ -490,11 +437,9 @@ Create a `results.txt` file from the home directory of your virtual machine.
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-02/part-01` directory of your
-private repository with all the other files.
+Put the `results.txt` file into the `project-02/part-01` directory of your private repository with all the other files.
 
-Commit and push your work through Git. Submit the last commit ID to Canvas
-before the deadline.
+Commit and push your work through Git. Submit the last commit ID to Canvas before the deadline.
 
 ### Deadlines
 
@@ -519,7 +464,6 @@ Refer to canvas for information about the deadline.
 
 ### Reading
 
-* _Understanding the Linux kernel, Third Edition by Daniel P. Bovet and Marco
-  Cesati, Chapters 3, 4, 7, 10_
+* _Understanding the Linux kernel, Third Edition by Daniel P. Bovet and Marco Cesati, Chapters 3, 4, 7, 10_
 
 * _Linux Kernel Development, Third Edition by Robert Love, Chapters 3-5, 7_

@@ -1,4 +1,5 @@
-### COM 341, Operating Systems
+COM 341, Operating Systems
+==========================
 # Project #2
 
 ![Compiling a Linux Kernel](http://i.imgur.com/t0c7Wav.gif)
@@ -12,11 +13,11 @@ In this work, we hope you will
 * Learn what the code in the kernel looks like.
 * Learn what a real PCB/TCB (Process/Thread Control Block) looks like.
 * Learn how to add new system calls into the Linux kernel.
-* Learn how to configure a kernel before compilation.
-* Learn how to compile a kernel.
+* Learn how to configure a Linux kernel before compilation.
+* Learn how to compile a Linux kernel.
 * Learn about the #1 programmer excuse for legitimately [slacking off](https://xkcd.com/303).
 * Learn how to work with complex code bases not written by you
-* Learn how to use cross-referencing and version control to search for information to modify existing code
+* Learn how to use cross-referencing tools and version control to search for information to modify existing code
 * Learn why your Android phone (unless it is from Google) does not get OS updates the same day Google releases them
 * Learn to work with other sources of information such as man pages, books, and specialized social networks to get the necessary information.
 
@@ -45,7 +46,7 @@ The goal of the first part is to modify an old version of the Linux kernel bundl
     * `kernel/sys_ni.c`
     * `Makefile`
     * `debian.master/changelog`
-    * `linux-image-*-generic_*_amd64.deb`
+    * `~/linux-image-*-generic_*_amd64.deb`
 
 Create a `results.txt` file in your virtual machine's home directory (`~/`).
 
@@ -78,7 +79,7 @@ The goal of the second task is to port the `task_info` system calls' code from t
     * `kernel/sys_ni.c`
     * `Makefile`
     * `debian.master/changelog`
-    * `linux-image-*-generic_*_amd64.deb`
+    * `~/linux-image-*-generic_*_amd64.deb`
 
 Create a `results.txt` file in your virtual machine's home directory (`~/`).
 

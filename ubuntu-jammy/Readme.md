@@ -243,7 +243,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     before
 
-        #                                                                                
+        #
         # Due to a historical design error, certain syscalls are numbered differently...
 
     Don't forget to adjust numbers `449` and `450` if necessary. Use successive
@@ -325,7 +325,7 @@ newer 20.04 LTS version of Ubuntu Linux.
     to 10 gigabytes of disk space. The Debian build system not only builds the
     kernel but also packs everything into a set of installable `.deb` packages.
     All compilation errors will appear at this stage.
-    
+
     Keep track of errors by watching the compilation log. The compilation process
     does not stop on error. If you see an error, stop the process by pressing `CTRL+C`
     key combination immidiately.
@@ -379,13 +379,13 @@ newer 20.04 LTS version of Ubuntu Linux.
     Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
     in sources in the [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source)
     version on the same site. Apply the same change to your code.
-    
+
 51. Finally, the logic to extract the process state information (outlined after the `/* state */` comment in
     `get_task_info.c`) was changed, and a getter `task_state_index(...)` was [created](https://github.com/torvalds/linux/commit/1d48b080bcce0a5e7d7aa2dbcdb35deefc188c3f) to aquire
     this information from the process control block (`struct task_struct` in Linux). Replace the code after
     `/* state */` to set the `local_task_info.state` field with the code to set this variable with the value
     returned by the aforementioned getter.
-    
+
 52. Fix the code issues and try rebuilding the kernel again.
 
 53. Go to the parent directory.
@@ -455,8 +455,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 ### Submitting Work
 
-In your private course repository, create a directory `project-02/part-02`. Put
-the following files into it.
+In your private course repository, create a directory `project-02/part-02`. Put the following files into it.
 
 * `task_info/`
 * `init/Kconfig`
@@ -467,6 +466,7 @@ the following files into it.
 * `kernel/sys_ni.c`
 * `Makefile`
 * `debian.master/changelog`
+* `~/linux-image-*-generic_*_amd64.deb`
 
 Create a `results.txt` file from the home directory of your virtual machine.
 
@@ -474,11 +474,9 @@ Create a `results.txt` file from the home directory of your virtual machine.
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-02/part-02` directory of your
-private repository with all the other files.
+Put the `results.txt` file into the `project-02/part-02` directory of your private repository with all the other files.
 
-Commit and push your work through Git. Submit the last commit ID to Canvas
-before the deadline.
+Commit and push your work through Git. Submit the last commit ID to Canvas before the deadline.
 
 ### Deadlines
 
@@ -503,7 +501,6 @@ Refer to canvas for information about the deadline.
 
 ### Reading
 
-* _Understanding the Linux kernel, Third Edition by Daniel P. Bovet and Marco
-  Cesati, Chapters 3, 4, 7, 10_
+* _Understanding the Linux kernel, Third Edition by Daniel P. Bovet and Marco Cesati, Chapters 3, 4, 7, 10_
 
 * _Linux Kernel Development, Third Edition by Robert Love, Chapters 3-5, 7_
