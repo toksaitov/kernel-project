@@ -15,7 +15,7 @@ In this work, we hope you will
 * Learn how to add new system calls into the Linux kernel.
 * Learn how to configure a Linux kernel before compilation.
 * Learn how to compile a Linux kernel.
-* Learn about the #1 programmer excuse for legitimately [slacking off](https://xkcd.com/303).
+* Learn about the #1 programmer's excuse for legitimately [slacking off](https://xkcd.com/303).
 * Learn how to work with complex code bases not written by you
 * Learn how to use cross-referencing tools and version control to search for information to modify existing code
 * Learn why your Android phone (unless it is from Google) does not get OS updates the same day Google releases them

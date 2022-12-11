@@ -6,49 +6,34 @@ COM 341, Operating Systems
 
 ### General Information
 
-In this task you need to port the code of the `task_info` directory created for
-the older kernels used by the Ubuntu 16.10 to work on the kernel used by the
-newer 20.04 LTS version of Ubuntu Linux.
+In Part #2, you have to port the code of the `task_info` directory created for the older Ubuntu 16.10 to the newer kernel used by the 22.04 LTS version of Ubuntu Linux.
 
 ### Steps
 
-1. Download an installation image for [Ubuntu 22.04](https://releases.ubuntu.com/jammy)
-   We recommend to select the server image under the name `ubuntu-22.04.1-live-server-amd64.iso`.
+1. Download an installation image for [Ubuntu 22.04](https://releases.ubuntu.com/jammy). We recommend to select the server image under the name `ubuntu-22.04.1-live-server-amd64.iso`.
 
-2. Open Oracle VirtualBox and open a new machine creation dialog by clicking on
-   the 'New' button on the toolbar.
+2. Open Oracle VirtualBox and open a new machine creation dialog by clicking on the 'New' button on the toolbar.
 
-3. Type a descriptive name, set type to `Linux` and version to `Ubuntu
-   (64-bit)`.
+3. Type a descriptive name, set the type to `Linux` and the version to `Ubuntu (64-bit)`.
 
 4. Set `memory size` to 1024 megabytes or more. Click on `Create`.
 
-5. Set `file size` for a new virtual disk to (!) 60 gigabytes or more. Once
-   again, click on `Create`.
+5. Set `file size` for a new virtual disk to (!) 60 gigabytes or more. Once again, click on `Create`.
 
-6. Right click on your new machine and select `Settings...`.
+6. Right-click on your new machine and select `Settings...`.
 
-7. Go to the `System` tab, select `processor`. Set the first slider to the
-   number of cores that you have on your system.
+7. Go to the `System` tab and choose `processor`. Set the first slider to the number of cores on your system.
 
-8. Switch to the `Storage` tab, select an empty disk under the IDE controller.
-   On the right side, click on the disk icon and select `Choose a disk
-   file...`. Open the disk image from step #1.
+8. Switch to the `Storage` tab, and select an empty disk under the IDE controller. On the right side, click on the disk icon and select `Choose a disk file...`. Open the disk image from step #1.
 
-9. Go to the `Network` tab, click on `Advanced`, open the `Port Forwarding`
-   window. Click on the plus icon and add the following rule to forward traffic
-   from your host machine on port 2222 to an SSH server on the guest machine on
-   port 22.
+9. Go to the `Network` tab, click on `Advanced`, and open the `Port Forwarding` window. Click on the plus icon and add the following rule to forward traffic from your host machine on port 2222 to an SSH server on the guest machine on port 22.
 
         Name      Protocol    Host IP      Host Port    Guest IP     Guest Port
         Rule 1    TCP         127.0.0.1    2222         10.0.2.15    22
 
-    Other options are possible but they depend on your network setup (e.g., you
-    can select the `Bridged Adapter` in the `Attached to` drop-down as an
-    alternative).
+    Other options are possible, but they depend on your network setup (e.g., you can select the `Bridged Adapter` in the `Attached to` drop-down as an alternative).
 
-10. Save your settings and use the `Start` button on the toolbar to start your
-    virtual machine.
+10. Save your settings and use the `Start` button on the toolbar to start your virtual machine.
 
 11. On the language selection dialog, set the system language to `English`.
 
@@ -60,36 +45,25 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 15. On the mirror configuration page, leave the default URL.
 
-16. On the disk storage layout screen ensure that `Use an entire disk` is
-    selected and proceed.
+16. On the disk storage layout screen, ensure that `Use an entire disk` is selected and proceed.
 
 17. Aknowledge the file system summary and confirm destructive operations.
 
-18. Type your full name. Set a system host name to identify the virtual machine
-    on your network (e.g., `ubuntu-20-04`). Select a login name, create a
-    password for a new account on your virtual system.
+18. Type your full name. Set a system hostname to identify the virtual machine on your network (e.g., `ubuntu-22-04`). Select a login name, and create a password for a new account on your virtual system.
 
-19. Check `Install OpenSSH server`, ignore all the proposed snaps, proceed.
+19. Check `Install OpenSSH server`, ignore all the proposed snaps, and proceed.
 
-20. Reboot the virtual machine at the end of the installation process. When
-    asked, remove the disk image by clicking on a disk icon in the lower right
-    corner and selecting `Remove disk from virtual drive`. It is also possible
-    that the OS will remove the disk automatically for you. Press `Enter` if
-    the system is not rebooting.
+20. Reboot the virtual machine at the end of the installation process. When asked, remove the disk image by clicking on a disk icon in the lower right corner and selecting `Remove disk from virtual drive`. It is also possible that the OS will remove the disk automatically for you. Press `Enter` if the system is not rebooting.
 
-21. You can work directly in the VirtualBox window, or you can connect to your
-    server through the SSH protocol.
+21. You can work directly in the VirtualBox window, or you can connect to your server through the SSH protocol.
 
-    On your host machine (from Bash on Windows or any terminal on *nix
-    platforms) use the following command to connect to your virtual server.
+    On your host machine (from Bash on Windows or any terminal on *nix platforms), use the following command to connect to your virtual server.
 
         ssh -p 2222 <the user name specified during installation>@127.0.0.1
 
     Consider starting using `tmux` at this point.
 
-22. Uncomment every line that starts with `deb-src` except the line that ends
-    with the word `partner` in the package manager's configuration file
-    `/etc/apt/sources.list` and save it.
+22. Uncomment every line that starts with `deb-src` except the line that ends with the word `partner` in the package manager's configuration file `/etc/apt/sources.list` and save it.
 
         sudo vim /etc/apt/sources.list
 
@@ -105,8 +79,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         scp -P 2222 -r kernel-project <the user name specified during installation>@127.0.0.1:~/
 
-26. Go to the directory with sources of the process information utility
-    "tasks".
+26. Go to the directory with sources of the process information utility "tasks".
 
         cd ~/kernel-project/tasks
 
@@ -127,9 +100,7 @@ newer 20.04 LTS version of Ubuntu Linux.
         git config --global user.name "your full name"
         git config --global user.email "your e-mail address"
 
-31. Clone the Linux kernel repository for Ubuntu 16.10. Note that Git will try
-    to fetch around 200 megabytes of data from the Canonical servers (the company
-    behind the Ubuntu OS).
+31. Clone the Linux kernel repository for Ubuntu 22.04. Note that Git will try to fetch around 200 megabytes of data from the Canonical servers (the company behind the Ubuntu OS).
 
         git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy ubuntu-jammy
 
@@ -161,9 +132,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     at the end of the file. Adjust tabs and spaces.
 
-36. Add a forward declaration for the `task_info` structure and two function
-    prototypes for `get_pids` and `get_task_info` at the end of
-    `include/linux/syscalls.h`.
+36. Add a forward declaration for the `task_info` structure and two function prototypes for `get_pids` and `get_task_info` at the end of `include/linux/syscalls.h`.
 
         vim ~/ubuntu-*/include/linux/syscalls.h
 
@@ -183,9 +152,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     at the end of the file before the closing `#endif`
 
-37. Add generic table entries for two system calls before the first instance of
-    `#undef __NR_syscalls` in `include/uapi/asm-generic/unistd.h`. Do not forget
-    to increment the counter for the first `#define __NR_syscalls` by two.
+37. Add generic table entries for two system calls before the first instance of `#undef __NR_syscalls` in `include/uapi/asm-generic/unistd.h`. Do not forget to increment the counter for the first `#define __NR_syscalls` by two.
 
         vim ~/ubuntu-*/include/uapi/asm-generic/unistd.h
 
@@ -202,8 +169,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         #undef __NR_syscalls
 
-    Don't forget to adjust numbers `449` and `450` if necessary. Use successive
-    values after the last system call in the file.
+    Don't forget to adjust numbers `449` and `450` if necessary. Use successive values after the last system call in the file.
 
     Increment the value of the next instance of __NR_syscalls by two.
 
@@ -215,8 +181,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         #define __NR_syscalls 451
 
-38. Add x86 table entries for two system calls at the end of the
-    `arch/x86/entry/syscalls/syscall_32.tbl` file.
+38. Add x86 table entries for two system calls at the end of the `arch/x86/entry/syscalls/syscall_32.tbl` file.
 
         vim ~/ubuntu-*/arch/x86/entry/syscalls/syscall_32.tbl
 
@@ -227,12 +192,9 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     at the end of the file. Adjust tabs and spaces.
 
-    Don't forget to adjust numbers `449` and `450` if necessary. Use successive
-    values after the last system call in the file.
+    Don't forget to adjust numbers `449` and `450` if necessary. Use successive values after the last system call in the file.
 
-39. Add x86-64 table entries for two system calls in
-    `arch/x86/entry/syscalls/syscall_64.tbl`. Do it before the
-    `# x32-specific system call num...` comment.
+39. Add x86-64 table entries for two system calls in `arch/x86/entry/syscalls/syscall_64.tbl`. Do it before the `# x32-specific system call num...` comment.
 
         vim ~/ubuntu-*/arch/x86/entry/syscalls/syscall_64.tbl
 
@@ -246,9 +208,7 @@ newer 20.04 LTS version of Ubuntu Linux.
         #
         # Due to a historical design error, certain syscalls are numbered differently...
 
-    Don't forget to adjust numbers `449` and `450` if necessary. Use successive
-    values after the last system call in the file. Adjust tabs and spaces
-    appropriately.
+    Don't forget to adjust numbers `449` and `450` if necessary. Use successive values after the last system call in the file. Adjust tabs and spaces appropriately.
 
 40. Add two fallback stubs at the end of `kernel/sys_ni.c`.
 
@@ -262,10 +222,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
     at the end of the file
 
-41. Modify the kernel build system to compile the new calls. Add the
-    directory `task_info/` at the end of the line
-    `core-y += kernel/ mm/ fs/ ipc/ security/ crypto/ block/` in the main
-    `Makefile`.
+41. Modify the kernel build system to compile the new calls. Add the directory `task_info/` at the end of the line `core-y += kernel/ mm/ fs/ ipc/ security/ crypto/ block/` in the main `Makefile`.
 
         vim ~/ubuntu-*/Makefile
 
@@ -277,11 +234,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ task_info/
 
-42. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the
-    version number at the top of `debian.master/changelog` to identify your new
-    kernel. You work will be graded based on a correct value here. Incorrect
-    values will give you zero points for the work. Ensure to specify your login
-    name correctly.
+42. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the version number at the top of `debian.master/changelog` to identify your new kernel. Your work will be graded based on a correct value here. Incorrect values will give you zero points for the work. Ensure to specify your login name correctly.
 
         vim ~/ubuntu-*/debian.master/changelog
 
@@ -310,81 +263,38 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         fakeroot debian/rules editconfigs
 
-    For each prompt, ensure that the `task_info` option is selected, save the
-    configuration and exit.
+    For each prompt, ensure that the `task_info` option is selected, save the configuration and exit.
 
 47. Start the kernel build process. A successful build will produce multiple
-    `.deb` packages in the parent directory. Time the the process.
+    `.deb` packages in the parent directory. Time the process.
 
         time fakeroot debian/rules binary-perarch \
                                    binary-indep   \
                                    binary-headers \
                                    binary-generic
 
-    The compilation process can take a lot of time. Compiled objects can use up
-    to 10 gigabytes of disk space. The Debian build system not only builds the
-    kernel but also packs everything into a set of installable `.deb` packages.
-    All compilation errors will appear at this stage.
+    The compilation process can take a lot of time. Compiled objects can use up to 40 gigabytes of disk space. The Debian build system not only builds the kernel but also packs everything into a set of installable `.deb` packages. All compilation errors will appear at this stage.
 
-    Keep track of errors by watching the compilation log. The compilation process
-    does not stop on error. If you see an error, stop the process by pressing `CTRL+C`
-    key combination immidiately.
+    Keep track of errors by watching the compilation log. The compilation process does not stop on error. Stop the process immediately if you see an error by pressing `CTRL+C` key combination.
 
-    To restart an unsuccessful build, fix problems in your sources and start the
-    build system again.
+    To restart an unsuccessful build, fix problems in your sources and start the build system again.
 
         time fakeroot debian/rules binary-perarch \
                                    binary-indep   \
                                    binary-headers \
                                    binary-generic
 
-    To restart just the unsuccessful kernel build, fix problems in your sources
-    and start the build system again in the following way
+    To restart just the unsuccessful kernel build, fix problems in your sources and start the build system again in the following way
 
         time fakeroot debian/rules binary-generic
 
-    To recompile the kernel with new changes after a successful build, remove a
-    stamp file to notify the build system that kernel sources were changed.
-    After that, you can start the build process again.
+48. The first problem you will encounter is a complaint that the variable `nr_threads` is undeclared in `get_pids.c`. Use the Elixir Linux Cross Reference for Linux kernel version [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source) to search where `nr_threads` is declared. You should also find where the same variable was included for the [old version](https://elixir.bootlin.com/linux/v4.8/source) of the kernel used in Ubuntu 16.10. Remove the old included header (if necessary) and replace it with the new one in `get_pids.c`. Note, that the file that you include must be an `.h` file. The variable should also be declared as an `externvar` and not as a member in the header.
 
-        rm debian/stamps/stamp-build-generic
+49. The second problem is that `linux/cputime.h` does not exist in the 5.15.* version of the kernel anymore that is included in `get_task_info.c`. To find where `cputime.h` code was moved into, search in the commit history of the Linux [kernel](https://github.com/torvalds/linux). I recommend using the following string `Move cputime functionality from` to narrow down your search. Fix the include after that. It also looks like that the `cputime_t` was removed and replaced with the `u64` typedef. Replace the type in `get_task_info.c`.
 
-        time fakeroot debian/rules binary-perarch \
-                                   binary-indep   \
-                                   binary-headers \
-                                   binary-generic
+50. The third problem is that `cputime_to_usecs` is not used to convert time values in the new version of the kernel anymore. To help us find what should we use, we will refer to the Linux Cross Reference [again](https://elixir.bootlin.com/linux/v4.8/source). Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places in sources in the [5.15.](https://elixir.bootlin.com/linux/v5.15.52/source) version on the same site. Finally, apply the change to your code.
 
-48. The first problem that you will encounter is a complain that the variable
-    `nr_threads` is undeclared in `get_pids.c`. Use the Elixir Linux Cross
-    Reference for Linux kernel version [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source)
-    to search where `nr_threads` is declared. You should also find where the
-    same variable was included for the [old version](https://elixir.bootlin.com/linux/v4.8/source)
-    of the kernel used in Ubuntu 16.10. Remove the old included header (if
-    necessary) and replace it with the new one in `get_pids.c`. Note, that
-    the file that you include must be an `.h` file. The variable should also
-    be declared as an `externvar` and not as a member in the header.
-
-49. The second problem is that `linux/cputime.h` does not exist in the 5.15.*
-    version of the kernel anymore that is included in `get_task_info.c`. To find
-    where `cputime.h` code was moved into, search in the commit history of the
-    Linux [kernel](https://github.com/torvalds/linux). I recommend to use the
-    following string `Move cputime functionality from` to narrow down your
-    search. Fix the include after that. It also looks like that the `cputime_t`
-    was removed and replaced with the `u64` typedef. Replace the type in
-    `get_task_info.c`.
-
-50. The third problem is that `cputime_to_usecs` is not used to convert time
-    values in the new version of the kernel anymore. To help us find what
-    should we use, we will refer to the Linux Cross Reference [again](https://elixir.bootlin.com/linux/v4.8/source).
-    Find the `cputime_to_usecs` usage in 4.8 sources. Compare the same places
-    in sources in the [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source)
-    version on the same site. Apply the same change to your code.
-
-51. Finally, the logic to extract the process state information (outlined after the `/* state */` comment in
-    `get_task_info.c`) was changed, and a getter `task_state_index(...)` was [created](https://github.com/torvalds/linux/commit/1d48b080bcce0a5e7d7aa2dbcdb35deefc188c3f) to aquire
-    this information from the process control block (`struct task_struct` in Linux). Replace the code after
-    `/* state */` to set the `local_task_info.state` field with the code to set this variable with the value
-    returned by the aforementioned getter.
+51. Finally, the logic to extract the process state information (outlined after the `/* state */` comment in `get_task_info.c`) was changed, and a getter `task_state_index(...)` was [created](https://github.com/torvalds/linux/commit/1d48b080bcce0a5e7d7aa2dbcdb35deefc188c3f) to acquire this information from the process control block (`struct task_struct` in Linux). Replace the code after `/* state */` to set the `local_task_info.state` field with the code to set this variable with the value returned by the getter mentioned above.
 
 52. Fix the code issues and try rebuilding the kernel again.
 
@@ -408,13 +318,13 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         sudo dpkg -i *.deb
 
-    If the version of the new kernels is lower than that of of
-    the current one, you may have to remove the old one first,
-    and then install your custom one.
+    If the new kernel version is lower than the current one, you may have to remove the current one and install your custom one.
 
-         sudo apt remove linux-image-5.15.0-56-generic # or whatever kernel (`uname -a`) you have
+         sudo apt remove linux-image-5.15.0-56-generic # or whatever version `uname -a` reports
          sudo apt autoremove
          sudo dpkg -i *.deb
+
+    You may also select your kernel in the Grub bootloader. You must reboot the machine and make the Grub menu appear by pressing the arrow keys during the boot process. In the Grub menu, you may select the kernel to boot in.
 
 56. Reboot the machine to start using the new kernel.
 
@@ -428,7 +338,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         cd '~/kernel-project/tasks'
 
-59. Adjust system call numbers that you have defined in the kernel. Change
+59. Adjust the system call numbers that you have defined in the kernel. Change
     values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
@@ -442,12 +352,9 @@ newer 20.04 LTS version of Ubuntu Linux.
 
         ./tasks
 
-    You should see a list of tasks that are currently running on the system.
+    You should see a list of tasks currently running on the system.
 
-    If you press `t`, you will probably discover invalid values in core and
-    virtual memory columns. We will leave it to you as an optional exercise
-    to figure out the problem. But be warned, you will probably have to modify
-    and rebuild the kernel again.
+    If you press `t`, you will probably discover invalid values in the core and virtual memory columns. We will leave it to you as an optional exercise to figure out the problem. But be warned, you will probably have to modify and rebuild the kernel again.
 
 62. Go back to the kernel source tree.
 
@@ -455,7 +362,7 @@ newer 20.04 LTS version of Ubuntu Linux.
 
 ### Submitting Work
 
-In your private course repository, create a directory `project-02/part-02`. Put the following files into it.
+In your private course repository, create a directory `project-02/part-02`. Please put the following files into it.
 
 * `task_info/`
 * `init/Kconfig`
@@ -488,7 +395,7 @@ Refer to canvas for information about the deadline.
 
 * [Linux Documentation, Adding a New System Call](https://github.com/torvalds/linux/blob/6f0d349d922ba44e4348a17a78ea51b7135965b1/Documentation/process/adding-syscalls.rst)
 
-* [Linux Filesytem Hierarchy, /proc](http://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
+* [Linux Filesystem Hierarchy, /proc](http://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
 
 ### Documentation
 

@@ -4,11 +4,11 @@ COM 341, Operating Systems
 
 ### General Information
 
-In Part #1, you need to add two system calls to the Linux kernel. The system calls will allow a small task information utility to run in the user space querying information directly from the kernel without parsing output from the `proc` file system.
+In Part #1, you will have to add two system calls to the Linux kernel. The system calls will allow a small task information utility to run in the user space querying information directly from the kernel without parsing output from the `proc` file system.
 
 ### Notes
 
-Consider working in a terminal multiplexer such as `tmux`. In tmux, you can disconnect from the machine during a long-running process and go back to check the progress of the task at any later time.
+Consider working in a terminal multiplexer such as `tmux`. In `tmux`, you can disconnect from the machine during a long-running process and go back to check the progress of the task at any later time.
 
 Install a terminal multiplexer
 
@@ -55,7 +55,7 @@ To exit from a virtual terminal
 
 4. Open Oracle VirtualBox and open a new machine creation dialog by clicking on the 'New' button on the toolbar.
 
-5. Type a descriptive name, set type to `Linux` and version to `Ubuntu (64-bit)`.
+5. Type a descriptive name for the virtual machine, set its type to `Linux`, set the version to `Ubuntu (64-bit)`.
 
 6. Set `Base Memory` to 1024 megabytes or more. Set the `Processors` slider to the number of CPU cores you have. Click on `Next`.
 
@@ -64,8 +64,7 @@ To exit from a virtual terminal
 8. Right-click on your new machine and select `Settings...`.
 
 9. Switch to the `Storage` tab, and select an empty disk under the IDE controller. On the right side, click the disk icon and select `Choose a disk file...`. Open the disk image from step #3.
-
-11. Go to the `Network` tab, click on `Advanced`, open the `Port Forwarding` window. Click on the plus icon and add the following rule to forward traffic from your host machine on port 2222 to an SSH server on the guest machine on port 22.
+Go to the `Network` tab, click on `Advanced`, and open the `Port Forwarding` window. Next, click on the plus icon and add the following rule to forward traffic from your host machine on port 2222 to an SSH server on the guest machine on port 22.
 
         Name      Protocol    Host IP      Host Port    Guest IP     Guest Port
         Rule 1    TCP         127.0.0.1    2222         10.0.2.15    22
@@ -118,7 +117,7 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
         sudo vim /etc/apt/sources.list
 
-    Replace every domain to `old-releases.ubuntu.com`.
+    Replace every domain with `old-releases.ubuntu.com`.
 
 31. Update package index and install updates to the system
 
@@ -176,13 +175,13 @@ Other options are possible, but they depend on your network setup (e.g., select 
         vim ~/ubuntu-*/task_info/get_task_info.c
         vim ~/ubuntu-*/task_info/include/task_info/task_info.h
 
-    The `task_info` directory contains implementation of two system calls named `get_pids` and `get_task_info`. The first one returns a list of process IDs for all running tasks. The second returns task information for a specified process ID.
+    The `task_info` directory contains implementations of two system calls named `get_pids` and `get_task_info`. The first one returns a list of process IDs for all running tasks. The second returns task information for a specified process ID.
 
 44. Take a look at the structure used to represent threads and processes in the Linux kernel. You can find it at `include/linux/sched.h` under the name `task_struct`.
 
         vim ~/ubuntu-*/include/linux/sched.h
 
-    Check fields the `struct task_struct` contains.
+    Check the fields the `struct task_struct` contains.
 
 45. Study build rules for the new system calls in `task_info/Makefile`.
 
@@ -307,7 +306,7 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
         core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ task_info/
 
-53. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the version number at the top of `debian.master/changelog` to identify your new kernel. You work will be graded based on a correct value here. Incorrect values will give you zero points for the work. Ensure to specify your login name correctly.
+53. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the version number at the top of `debian.master/changelog` to identify your new kernel. Your work will be graded based on a correct value here. Incorrect values will give you zero points for the work. Ensure to specify your login name correctly.
 
         vim ~/ubuntu-*/debian.master/changelog
 
@@ -338,14 +337,14 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
     For each prompt, ensure that the `task_info` option is selected, save the configuration and exit.
 
-58. Start the kernel build process. A successful build will produce multiple `.deb` packages in the parent directory. Time the the process.
+58. Start the kernel build process. A successful build will produce multiple `.deb` packages in the parent directory. Time the process.
 
         time fakeroot debian/rules binary-perarch \
                                    binary-indep   \
                                    binary-headers \
                                    binary-generic
 
-    The compilation process can take a lot of time. Compiled objects can use up to 10 gigabytes of disk space. The Debian build system not only builds the kernel but also packs everything into a set of installable `.deb` packages. All compilation errors will appear at this stage.
+    The compilation process can take a lot of time. Compiled objects can use up to 20 gigabytes of disk space. The Debian build system not only builds the kernel but also packs everything into a set of installable `.deb` packages. All compilation errors will appear at this stage.
 
     To restart an unsuccessful build, fix problems in your sources and start the build system again.
 
@@ -395,7 +394,7 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
         cd '~/kernel-project/tasks'
 
-65. Adjust system call numbers that you have defined in the kernel. Change values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
+65. Adjust the system call numbers that you have defined in the kernel. Change values for constants `__NR_get_pids` and `__NR_get_task_info` in `tasks.c`.
 
         vim tasks.c
 
@@ -408,7 +407,7 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
         ./tasks
 
-    You should see a list of tasks that are currently running on the system. The program uses your new system calls to get information directly from the kernel without going through a `proc` virtual file system (which is how programs such as `ps` or `top` work). You can scroll through the list with the arrow keys, show or hide kernel threads with the `t` key, or exit by pressing `q`.
+    You should see a list of tasks currently running on the system. The program uses your new system calls to get information directly from the kernel without going through a `proc` virtual file system (which is how programs such as `ps` or `top` work). You can scroll through the list with the arrow keys, show or hide kernel threads with the `t` key, or exit by pressing `q`.
 
 68. Study the sources of the user space program.
 
@@ -451,7 +450,7 @@ Refer to canvas for information about the deadline.
 
 * [Linux Documentation, Adding a New System Call](https://github.com/torvalds/linux/blob/6f0d349d922ba44e4348a17a78ea51b7135965b1/Documentation/process/adding-syscalls.rst)
 
-* [Linux Filesytem Hierarchy, /proc](http://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
+* [Linux Filesystem Hierarchy, /proc](http://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
 
 ### Documentation
 
