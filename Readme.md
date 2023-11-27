@@ -33,9 +33,9 @@ The goal of the first part is to modify an old version of the Linux kernel bundl
 
 1. Ensure that during the compilation process, you have specified your last name and the first letter of the first name in the `...debian.master/changelog` file in the correct form (all letters are in lowercase, no `_` or `-` characters between your last name and the first letter of the first name).
 
-2. In your private course repository given to you by the instructor during the lecture, create the path `project-02/part-01/`.
+2. In your private course repository given to you by the instructor during the lecture, create the path `project-2/part-1/`.
 
-3. Create a directory `project-02/part-01` in your private course repository. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
+3. Create a directory `project-2/part-1` in your private course repository. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
 
     * `task_info/`
     * `init/Kconfig`
@@ -54,7 +54,7 @@ Create a `results.txt` file in your virtual machine's home directory (`~/`).
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-02/part-01` directory of your private repository with all the other files.
+Put the `results.txt` file into the `project-2/part-1` directory of your private repository with all the other files.
 
 4. Commit and push your repository through Git. Submit a URL to the last commit on GitHub to Canvas before the deadline.
 
@@ -66,9 +66,9 @@ The goal of the second task is to port the `task_info` system calls' code from t
 
 1. Ensure that during the compilation process, you have specified your last name and the first letter of the first name in the `...debian.master/changelog` file in the correct form (all letters are in lowercase, no `_` or `-` characters between your last name and the first letter of the first name).
 
-2. In your private course repository given to you by the instructor during the lecture, create the path `project-02/part-02/`.
+2. In your private course repository given to you by the instructor during the lecture, create the path `project-2/part-2/`.
 
-3. Create a directory `project-02/part-02` in your private course repository. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
+3. Create a directory `project-2/part-2` in your private course repository. Put the following files into it from the Linux source tree (NOT from the `kernel-project` directory)
 
     * `task_info/`
     * `init/Kconfig`
@@ -87,7 +87,7 @@ Create a `results.txt` file in your virtual machine's home directory (`~/`).
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-02/part-02` directory of your private repository with all the other files.
+Put the `results.txt` file into the `project-2/part-2` directory of your private repository with all the other files.
 
 4. Commit and push your repository through Git. Submit a URL to the last commit on GitHub to Canvas before the deadline.
 
