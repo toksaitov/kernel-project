@@ -100,41 +100,41 @@ In Part #2, you have to port the code of the `task_info` directory created for t
         git config --global user.name "your full name"
         git config --global user.email "your e-mail address"
 
-31. Clone the Linux kernel repository for Ubuntu 22.04. Note that Git will try to fetch around 200 megabytes of data from the Canonical servers (the company behind the Ubuntu OS).
+31. Get the Linux kernel sources for Ubuntu 22.04.
 
-        git clone --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy ubuntu-jammy
+        apt-get source linux-image-unsigned-$(uname -r)
 
 32. Install prerequisites for building the kernel.
 
-        sudo apt build-dep linux linux-image-$(uname -r)
-        sudo apt install libncurses-dev linux-tools-common fakeroot
+        sudo apt build-dep linux linux-image-unsigned-$(uname -r)
+        sudo apt install libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf llvm linux-tools-common fakeroot
 
-33. Go inside the kernel source tree.
+34. Go inside the kernel source tree.
 
-        cd ubuntu-*
+        cd linux-*/
 
-34. Copy system call entry points into the kernel source tree.
+35. Copy system call entry points into the kernel source tree.
 
-        cp -R ~/kernel-project/ubuntu-*/task_info ~/ubuntu-*/
+        cp -R ~/kernel-project/ubuntu-*/task_info ./
 
-35. Add a kernel configuration entry to disable or enable the new subsystem.
+36. Add a kernel configuration entry to disable or enable the new subsystem.
 
-        vim ~/ubuntu-*/init/Kconfig
+        vim ./init/Kconfig
 
     Add the following
 
         config TASK_INFO
-            bool "task_info syscalls"
-            default y
-            help
-              This option enables the task_info system calls which can be
-              used to query task information directly from the kernel.
+                bool "task_info syscalls"
+                default y
+                help
+                  This option enables the task_info system calls which can be
+                  used to query task information directly from the kernel.
 
     at the end of the file. Adjust tabs and spaces.
 
-36. Add a forward declaration for the `task_info` structure and two function prototypes for `get_pids` and `get_task_info` at the end of `include/linux/syscalls.h`.
+37. Add a forward declaration for the `task_info` structure and two function prototypes for `get_pids` and `get_task_info` at the end of `include/linux/syscalls.h`.
 
-        vim ~/ubuntu-*/include/linux/syscalls.h
+        vim ./include/linux/syscalls.h
 
     Add
 
@@ -152,9 +152,9 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     at the end of the file before the closing `#endif`
 
-37. Add generic table entries for two system calls before the first instance of `#undef __NR_syscalls` in `include/uapi/asm-generic/unistd.h`. Do not forget to increment the counter for the first `#define __NR_syscalls` by two.
+38. Add generic table entries for two system calls before the first instance of `#undef __NR_syscalls` in `include/uapi/asm-generic/unistd.h`. Do not forget to increment the counter for the first `#define __NR_syscalls` by two.
 
-        vim ~/ubuntu-*/include/uapi/asm-generic/unistd.h
+        vim ./include/uapi/asm-generic/unistd.h
 
     Add
 
@@ -181,9 +181,9 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
         #define __NR_syscalls 451
 
-38. Add x86 table entries for two system calls at the end of the `arch/x86/entry/syscalls/syscall_32.tbl` file.
+39. Add x86 table entries for two system calls at the end of the `arch/x86/entry/syscalls/syscall_32.tbl` file.
 
-        vim ~/ubuntu-*/arch/x86/entry/syscalls/syscall_32.tbl
+        vim ./arch/x86/entry/syscalls/syscall_32.tbl
 
     Add the following
 
@@ -194,9 +194,9 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     Don't forget to adjust numbers `449` and `450` if necessary. Use successive values after the last system call in the file.
 
-39. Add x86-64 table entries for two system calls in `arch/x86/entry/syscalls/syscall_64.tbl`. Do it before the `# x32-specific system call num...` comment.
+40. Add x86-64 table entries for two system calls in `arch/x86/entry/syscalls/syscall_64.tbl`. Do it before the `# x32-specific system call num...` comment.
 
-        vim ~/ubuntu-*/arch/x86/entry/syscalls/syscall_64.tbl
+        vim ./arch/x86/entry/syscalls/syscall_64.tbl
 
     Add system call numbers for x86-64 architecture
 
@@ -210,9 +210,9 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     Don't forget to adjust numbers `449` and `450` if necessary. Use successive values after the last system call in the file. Adjust tabs and spaces appropriately.
 
-40. Add two fallback stubs at the end of `kernel/sys_ni.c`.
+41. Add two fallback stubs at the end of `kernel/sys_ni.c`.
 
-        vim ~/ubuntu-*/kernel/sys_ni.c
+        vim ./kernel/sys_ni.c
 
     Add the following
 
@@ -222,56 +222,50 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     at the end of the file
 
-41. Modify the kernel build system to compile the new calls. Add the directory `task_info/` at the end of the line `core-y += kernel/ mm/ fs/ ipc/ security/ crypto/ block/` in the main `Makefile`.
+42. Modify the kernel build system to compile the new calls. Add the directory `task_info/` at the end of the line `core-y += kernel/ mm/ fs/ ipc/ security/ crypto/ block/` in the main `Makefile`.
 
-        vim ~/ubuntu-*/Makefile
+        vim ./Makefile
 
     Change the line
 
-        core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+        core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/
 
     to
 
-        core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ task_info/
+        core-y += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ task_info/
 
-42. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the version number at the top of `debian.master/changelog` to identify your new kernel. Your work will be graded based on a correct value here. Incorrect values will give you zero points for the work. Ensure to specify your login name correctly.
+43. Add your AUCA login with a plus symbol (e.g., `+toksaitovd`) after the version number at the top of `debian.master/changelog` to identify your new kernel. Your work will be graded based on a correct value here. Incorrect values will give you zero points for the work. Ensure to specify your login name correctly.
 
-        vim ~/ubuntu-*/debian.master/changelog
+        vim ./debian.master/changelog
 
     Change the version at the top (the version can be different)
 
-        linux (5.15.0-52.58) jammy; urgency=medium
+        linux (5.15.0-89.99) jammy; urgency=medium
 
     to
 
-        linux (5.15.0-52.58+toksaitovd) jammy; urgency=medium
-
-43. Ensure that you are in the root directory of the kernel source tree.
-
-        cd ~/ubuntu-*
+        linux (5.15.0-89.99+toksaitovd) jammy; urgency=medium
 
 44. Make Debian build scripts executable.
 
+        chmod a+x debian/rules
         chmod a+x debian/scripts/*
         chmod a+x debian/scripts/misc/*
 
 45. Clean the build directory.
 
-        fakeroot debian/rules clean
+        LANG=C fakeroot debian/rules clean
 
 46. Create default configuration files for the kernel.
 
-        fakeroot debian/rules editconfigs
+        LANG=C fakeroot debian/rules editconfigs
 
     For each prompt, ensure that the `task_info` option is selected, save the configuration and exit.
 
 47. Start the kernel build process. A successful build will produce multiple
     `.deb` packages in the parent directory. Time the process.
 
-        time fakeroot debian/rules binary-perarch \
-                                   binary-indep   \
-                                   binary-headers \
-                                   binary-generic
+        LANG=C time fakeroot debian/rules binary-headers binary-generic binary-perarch
 
     The compilation process can take a lot of time. Compiled objects can use up to 40 gigabytes of disk space. The Debian build system not only builds the kernel but also packs everything into a set of installable `.deb` packages. All compilation errors will appear at this stage.
 
@@ -279,14 +273,11 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     To restart an unsuccessful build, fix problems in your sources and start the build system again.
 
-        time fakeroot debian/rules binary-perarch \
-                                   binary-indep   \
-                                   binary-headers \
-                                   binary-generic
+        LANG=C time fakeroot debian/rules binary-headers binary-generic binary-perarch
 
     To restart just the unsuccessful kernel build, fix problems in your sources and start the build system again in the following way
 
-        time fakeroot debian/rules binary-generic
+        LANG=C time fakeroot debian/rules binary-generic
 
 48. The first problem you will encounter is a complaint that the variable `nr_threads` is undeclared in `get_pids.c`. Use the Elixir Linux Cross Reference for Linux kernel version [5.15.\*](https://elixir.bootlin.com/linux/v5.15.52/source) to search where `nr_threads` is declared. You should also find where the same variable was included for the [old version](https://elixir.bootlin.com/linux/v4.8/source) of the kernel used in Ubuntu 16.10. Remove the old included header (if necessary) and replace it with the new one in `get_pids.c`. Note, that the file that you include must be an `.h` file. The variable should also be declared as an `externvar` and not as a member in the header.
 
@@ -320,7 +311,7 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     If the new kernel version is lower than the current one, you may have to remove the current one and install your custom one.
 
-         sudo apt remove linux-image-5.15.0-56-generic # or whatever version `uname -a` reports
+         sudo apt remove linux-image-5.15.0-89-generic # or whatever version `uname -a` reports
          sudo apt autoremove
          sudo dpkg -i *.deb
 
@@ -358,11 +349,9 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
 62. Go back to the kernel source tree.
 
-        cd ~/ubuntu-*
-
 ### Submitting Work
 
-In your private course repository, create a directory `project-02/part-02`. Please put the following files into it.
+In your private course repository, create a directory `project-2/part-2`. Please put the following files into it.
 
 * `task_info/`
 * `init/Kconfig`
@@ -373,7 +362,7 @@ In your private course repository, create a directory `project-02/part-02`. Plea
 * `kernel/sys_ni.c`
 * `Makefile`
 * `debian.master/changelog`
-* `~/linux-image-*-generic_*_amd64.deb`
+* `~/linux-image-unsigned-*.deb`
 
 Create a `results.txt` file from the home directory of your virtual machine.
 
@@ -381,7 +370,7 @@ Create a `results.txt` file from the home directory of your virtual machine.
 sha512sum *.deb > results.txt
 ```
 
-Put the `results.txt` file into the `project-02/part-02` directory of your private repository with all the other files.
+Put the `results.txt` file into the `project-2/part-2` directory of your private repository with all the other files.
 
 Commit and push your work through Git. Submit the last commit ID to Canvas before the deadline.
 
