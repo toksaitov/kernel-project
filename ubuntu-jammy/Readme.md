@@ -124,11 +124,11 @@ In Part #2, you have to port the code of the `task_info` directory created for t
     Add the following
 
         config TASK_INFO
-                bool "task_info syscalls"
-                default y
-                help
-                  This option enables the task_info system calls which can be
-                  used to query task information directly from the kernel.
+        	bool "task_info syscalls"
+        	default y
+        	help
+        	  This option enables the task_info system calls which can be
+        	  used to query task information directly from the kernel.
 
     at the end of the file. Adjust tabs and spaces.
 
@@ -187,8 +187,8 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     Add the following
 
-        449    i386    get_pids        sys_get_pids
-        450    i386    get_task_info   sys_get_task_info
+        449	i386	get_pids		sys_get_pids
+        450	i386	get_task_info		sys_get_task_info
 
     at the end of the file. Adjust tabs and spaces.
 
@@ -200,8 +200,8 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
     Add system call numbers for x86-64 architecture
 
-        449    common    get_pids             sys_get_pids
-        450    common    get_task_info        sys_get_task_info
+        449	common	get_pids		sys_get_pids
+        450	common	get_task_info		sys_get_task_info
 
     before
 

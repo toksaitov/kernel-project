@@ -194,11 +194,11 @@ Other options are possible, but they depend on your network setup (e.g., select 
     Add the following
 
         config TASK_INFO
-            bool "task_info syscalls"
-            default y
-            help
-              This option enables the task_info system calls which can be
-              used to query task information directly from the kernel.
+        	bool "task_info syscalls"
+        	default y
+        	help
+        	  This option enables the task_info system calls which can be
+        	  used to query task information directly from the kernel.
 
     at the end of the file. Adjust tabs and spaces.
 
@@ -257,8 +257,8 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
     Add the following
 
-        383    i386    get_pids             sys_get_pids
-        384    i386    get_task_info        sys_get_task_info
+        383	i386	get_pids		sys_get_pids
+        384	i386	get_task_info		sys_get_task_info
 
     at the end of the file. Adjust tabs and spaces.
 
@@ -270,8 +270,8 @@ Other options are possible, but they depend on your network setup (e.g., select 
 
     Add system call numbers for x86-64 architecture
 
-        332    common    get_pids             sys_get_pids
-        333    common    get_task_info        sys_get_task_info
+        332	common	get_pids		sys_get_pids
+        333	common	get_task_info		sys_get_task_info
 
     before
 
