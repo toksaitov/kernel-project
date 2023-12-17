@@ -10,7 +10,7 @@ In Part #2, you have to port the code of the `task_info` directory created for t
 
 ### Steps
 
-1. Download an installation image for [Ubuntu 22.04](https://releases.ubuntu.com/jammy). We recommend to select the server image under the name `ubuntu-22.04.1-live-server-amd64.iso`.
+1. Download an installation image for [Ubuntu 22.04](https://releases.ubuntu.com/jammy). We recommend to select the server image under the name `ubuntu-22.04.*-live-server-amd64.iso`.
 
 2. Open Oracle VirtualBox and open a new machine creation dialog by clicking on the 'New' button on the toolbar.
 
