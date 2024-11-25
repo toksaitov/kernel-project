@@ -50,14 +50,14 @@ static const int Header_Height       = 5;
 static const int Memory_Column_Width = 7;
 
 #if defined(__x86_64__)
-static const int __NR_get_pids      = 329,
-                 __NR_get_task_info = 330;
+static const int __NR_get_pids      = 462,
+                 __NR_get_task_info = 463;
 #elif defined(__i386__)
-static const int __NR_get_pids      = 380,
-                 __NR_get_task_info = 381;
+static const int __NR_get_pids      = 462,
+                 __NR_get_task_info = 463;
 #else
-static const int __NR_get_pids      = 288,
-                 __NR_get_task_info = 289;
+static const int __NR_get_pids      = 462,
+                 __NR_get_task_info = 463;
 #endif
 
 static const int32_t Kernel_Thread_Daemon_PID = 2;
