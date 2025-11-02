@@ -1,5 +1,6 @@
-CFLAGS  += -O3 -std=c99 -D_GNU_SOURCE
-LDLIBS  += -lncurses
+CFLAGS  += -O3 -std=c99 -D_GNU_SOURCE -static
+LDFLAGS += -static
+LDLIBS  += -lncurses -ltinfo
 
 TARGET  = tasks
 OBJECT  = tasks.o
